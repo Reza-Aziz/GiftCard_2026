@@ -5,7 +5,7 @@ import { gsap, reduced } from "@/lib/gsap";
 import { sceneLabels } from "@/lib/content";
 
 const SCENE_IDS = ["hero", "letter", "gallery", "finale"];
-const SCENE_BG = ["#fff9f1", "#f1e6ff", "#fde9f1", "#fbf0d9"];
+const SCENE_BG = ["#FFF9F0", "#F3EAFB", "#FBE9EE", "#FBF3DF"];
 
 // Background eases per chapter via ScrollTrigger. No top nav.
 export default function Story({ children }: { children: ReactNode }) {

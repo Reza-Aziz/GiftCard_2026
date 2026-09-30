@@ -15,7 +15,7 @@ export default async function Image() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "#FFF9F1",
+          background: "#FFF9F0",
         }}
       >
         <div
@@ -24,17 +24,17 @@ export default async function Image() {
             flexDirection: "column",
             alignItems: "center",
             background: "#fff",
-            border: "6px solid #4A3730",
-            borderRadius: 32,
-            boxShadow: "12px 12px 0 #4A3730",
+            border: "4px solid #5B4A42",
+            borderRadius: 28,
+            boxShadow: "0 18px 40px -24px #5B4A42",
             padding: "60px 90px",
           }}
         >
-          <div style={{ fontSize: 28, letterSpacing: 8, color: "#C99B3F", fontWeight: 700 }}>
+          <div style={{ fontSize: 28, letterSpacing: 8, color: "#C08A3E", fontWeight: 700 }}>
             HAPPY 21ST
           </div>
-          <div style={{ fontSize: 84, fontWeight: 900, color: "#4A3730", marginTop: 8 }}>{herName}</div>
-          <div style={{ fontSize: 32, color: "#C8A2E8", marginTop: 12, fontWeight: 700 }}>
+          <div style={{ fontSize: 84, fontWeight: 900, color: "#5B4A42", marginTop: 8 }}>{herName}</div>
+          <div style={{ fontSize: 32, color: "#D96C8A", marginTop: 12, fontWeight: 700 }}>
             a little universe for you ♥
           </div>
         </div>

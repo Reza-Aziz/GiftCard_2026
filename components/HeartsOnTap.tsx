@@ -8,7 +8,7 @@ import { gsap, reduced } from "@/lib/gsap";
 export default function HeartsOnTap() {
   useEffect(() => {
     if (reduced()) return;
-    const colors = ["#F9C5D5", "#C8A2E8", "#C99B3F", "#FF90E8"];
+    const colors = ["#F6C9D4", "#C9A8E0", "#E9B44C", "#E58AA0"];
     let n = 0;
     const onTap = (e: PointerEvent) => {
       if (document.querySelectorAll(".tap-heart").length > 12) return;

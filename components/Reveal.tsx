@@ -25,13 +25,13 @@ export default function Reveal({
     }
     const tween = gsap.fromTo(
       el,
-      { y: 28, autoAlpha: 0 },
+      { y: 32, autoAlpha: 0 },
       {
         y: 0,
         autoAlpha: 1,
-        duration: 0.7,
+        duration: 0.9,
         delay: delay / 1000,
-        ease: "power3.out",
+        ease: "sine.out",
         scrollTrigger: {
           trigger: el,
           start: "top 88%",

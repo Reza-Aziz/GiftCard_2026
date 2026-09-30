@@ -1,5 +1,5 @@
 import Bouquet from "@/components/Bouquet";
-import Doodle from "@/components/Doodle";
+import Daisy from "@/components/Daisy";
 import Envelope from "@/components/Envelope";
 import FinaleLetter from "@/components/FinaleLetter";
 import FlipCard from "@/components/FlipCard";
@@ -29,10 +29,11 @@ import {
 
 function SceneHead({ no, title, sub }: { no: string; title: string; sub: string }) {
   return (
-    <div className="mb-4 text-center">
-      <span className="stamp inline-block -rotate-2 px-3 py-1 text-[11px] font-bold tracking-widest">{no}</span>
-      <h2 className="font-display mt-2 text-3xl leading-tight sm:text-4xl">{title}</h2>
-      <p className="mx-auto mt-1 max-w-xs text-sm italic leading-relaxed opacity-70">{sub}</p>
+    <div className="mb-4 flex flex-col items-center text-center">
+      <Daisy className="h-12 w-12" />
+      <span className="mt-1 text-[11px] font-bold tracking-[0.25em] text-rose">{no}</span>
+      <h2 className="font-display mt-1 text-4xl font-black leading-tight sm:text-5xl">{title}</h2>
+      <p className="font-hand mx-auto mt-1 max-w-xs text-2xl leading-snug opacity-75">{sub}</p>
     </div>
   );
 }
@@ -40,7 +41,6 @@ function SceneHead({ no, title, sub }: { no: string; title: string; sub: string 
 export default function Home() {
   return (
     <div className="grain">
-      <Doodle />
       <HeartsOnTap />
       <MusicGate />
       <Story>
@@ -79,7 +79,7 @@ export default function Home() {
         </header>
 
         {/* CH. 2 — LETTER */}
-        <section id="letter" aria-label="Letter for cuking" className="flex scroll-mt-6 flex-col justify-center px-5 py-20 md:px-8">
+        <section id="letter" aria-label="Letter for cuking" className="texture-dots flex scroll-mt-6 flex-col justify-center px-5 py-20 md:px-8">
           <div className="mx-auto w-full max-w-md lg:max-w-xl">
             <Reveal>
               <SceneHead no="CH. TWO · LETTER" title="a letter for you" sub="read it slowly, no skipping allowed" />
@@ -109,7 +109,7 @@ export default function Home() {
         </section>
 
         {/* CH. 4 — 22ND WISH FINALE */}
-        <section id="finale" aria-label="Letter for the 22nd birthday" className="flex flex-col justify-center px-5 py-20 md:px-8">
+        <section id="finale" aria-label="Letter for the 22nd birthday" className="texture-dots flex flex-col justify-center px-5 py-20 md:px-8">
           <div className="mx-auto w-full max-w-md lg:max-w-xl">
             <Reveal>
               <SceneHead no="CH. FOUR · FINALE" title={finaleHead} sub="the last page, but never the end" />

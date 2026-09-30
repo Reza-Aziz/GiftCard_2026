@@ -9,13 +9,13 @@ export default function Flower({ className = "h-10 w-10" }: { className?: string
           rx="7"
           ry="10"
           transform={`rotate(${r} 24 24)`}
-          fill="#F9C5D5"
-          stroke="#4A3730"
+          fill="#F6C9D4"
+          stroke="#5B4A42"
           strokeWidth="1.5"
           opacity="0.9"
         />
       ))}
-      <circle cx="24" cy="24" r="6" fill="#C99B3F" stroke="#4A3730" strokeWidth="1.5" />
+      <circle cx="24" cy="24" r="6" fill="#E9B44C" stroke="#5B4A42" strokeWidth="1.5" />
     </svg>
   );
 }

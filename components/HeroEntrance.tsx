@@ -18,11 +18,11 @@ export default function HeroEntrance({ children }: { children: ReactNode }) {
     gsap.set(q("poem"), { y: 44, autoAlpha: 0 });
     gsap.set(q("card"), { y: 44, autoAlpha: 0, scale: 0.7 });
     gsap.set(q("cta"), { y: 44, autoAlpha: 0 });
-    const tl = gsap.timeline({ paused: true, defaults: { ease: "power3.out" } });
-    tl.to(q("kicker"), { y: 0, autoAlpha: 1, duration: 0.6 }, 0)
-      .to(q("title"), { y: 0, autoAlpha: 1, duration: 0.8 }, 0.1)
-      .to(q("poem"), { y: 0, autoAlpha: 1, duration: 0.6 }, 0.35)
-      .to(q("card"), { y: 0, autoAlpha: 1, scale: 1, duration: 0.9, ease: "back.out(1.4)" }, 0.5);
+    const tl = gsap.timeline({ paused: true, defaults: { ease: "sine.out" } });
+    tl.to(q("kicker"), { y: 0, autoAlpha: 1, duration: 0.7 }, 0)
+      .to(q("title"), { y: 0, autoAlpha: 1, duration: 0.9 }, 0.15)
+      .to(q("poem"), { y: 0, autoAlpha: 1, duration: 0.7 }, 0.45)
+      .to(q("card"), { y: 0, autoAlpha: 1, scale: 1, duration: 1, ease: "back.out(1.1)" }, 0.6);
     const play = () => tl.play();
     if (!document.querySelector(".gate")) {
       play();

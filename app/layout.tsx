@@ -1,8 +1,8 @@
 import type { Metadata, Viewport } from "next";
-import { Caveat, Shrikhand, Space_Grotesk } from "next/font/google";
+import { Caveat, Fraunces, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 
-const display = Shrikhand({ subsets: ["latin"], weight: "400", variable: "--font-display" });
+const display = Fraunces({ subsets: ["latin"], weight: ["600", "900"], style: ["normal", "italic"], variable: "--font-display" });
 const body = Space_Grotesk({ subsets: ["latin"], variable: "--font-body" });
 const hand = Caveat({ subsets: ["latin"], weight: ["500", "700"], variable: "--font-hand" });
 
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#C8A2E8",
+  themeColor: "#F6C9D4",
   width: "device-width",
   initialScale: 1,
 };
