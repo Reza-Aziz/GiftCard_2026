@@ -1,9 +1,10 @@
 import type { Metadata, Viewport } from "next";
-import { Shrikhand, Space_Grotesk } from "next/font/google";
+import { Caveat, Shrikhand, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 
 const display = Shrikhand({ subsets: ["latin"], weight: "400", variable: "--font-display" });
 const body = Space_Grotesk({ subsets: ["latin"], variable: "--font-body" });
+const hand = Caveat({ subsets: ["latin"], weight: ["500", "700"], variable: "--font-hand" });
 
 // honey: ganti dengan domain Vercel kamu setelah deploy
 const SITE_URL = "https://rizkioky21.vercel.app";
@@ -33,7 +34,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="id" className={`${display.variable} ${body.variable} h-full`}>
+    <html lang="id" className={`${display.variable} ${body.variable} ${hand.variable} h-full`}>
       <body className="min-h-full font-body bg-cream text-ink antialiased">{children}</body>
     </html>
   );

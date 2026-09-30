@@ -56,7 +56,7 @@ function RailCard({ p, i }: { p: Photo; i: number }) {
             />
           )}
         </div>
-        <figcaption className="pt-3 text-center font-display text-lg leading-snug">{p.caption}</figcaption>
+        <figcaption className="font-hand pt-2 text-center text-2xl font-medium leading-snug">{p.caption}</figcaption>
       </figure>
     </div>
   );

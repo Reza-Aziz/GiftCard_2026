@@ -15,6 +15,7 @@
   --color-mint: #8ee8c8;
   --font-display: var(--font-display), cursive;
   --font-body: var(--font-body), system-ui, sans-serif;
+  --font-hand: var(--font-hand), cursive;
 }
 
 /* NOTE: all motion is GSAP-driven (see lib/gsap.ts + components).
@@ -49,17 +50,23 @@ body {
 .font-body {
   font-family: var(--font-body), system-ui, sans-serif;
 }
+.font-hand {
+  font-family: var(--font-hand), cursive;
+}
 
-/* BRUTAL x RETRO: border tebal + hard shadow, warna retro */
+/* ILLUSTRATIVE x RETRO: hand-drawn wobble borders (SVG filter),
+   doodle-sticker outlines, softer layered shadows */
 .brutal-card {
   background: #fff;
   border: 3px solid var(--color-cocoa);
   border-radius: 1.25rem;
-  box-shadow: 6px 6px 0 var(--color-cocoa);
+  box-shadow: 5px 5px 0 #4a373022, 6px 6px 0 var(--color-cocoa);
+  filter: url(#wobble-sm);
 }
 .brutal-btn {
   border: 3px solid var(--color-cocoa);
-  box-shadow: 5px 5px 0 var(--color-cocoa);
+  box-shadow: 4px 4px 0 var(--color-cocoa);
+  filter: url(#wobble-sm);
 }
 .stamp {
   border: 2px dashed var(--color-gold);
@@ -68,16 +75,17 @@ body {
   background: #fff;
 }
 
-/* stiker kata retro-brutal */
+/* stiker kata doodle: outline putih + bayangan */
 .sticker {
   font-family: var(--font-display), cursive;
   background: #fff;
   border: 2px solid var(--color-cocoa);
   border-radius: 999px;
-  box-shadow: 3px 3px 0 var(--color-cocoa);
+  box-shadow: 0 0 0 3px #fff, 3px 4px 0 var(--color-cocoa);
   padding: 0.2rem 0.8rem;
   font-size: 0.8rem;
   white-space: nowrap;
+  filter: url(#wobble-sm);
 }
 
 /* press feedback (instant interaction state, not animation) */

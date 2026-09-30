@@ -59,7 +59,7 @@ export default function FlipCard({ name }: { name: string }) {
           />
         )}
       </span>
-      <span className="block pt-2 text-center text-sm font-bold">{caption}</span>
+      <span className="font-hand block pt-2 text-center text-xl font-bold">{caption}</span>
     </span>
   );
 

@@ -1,4 +1,5 @@
 import Bouquet from "@/components/Bouquet";
+import Doodle from "@/components/Doodle";
 import Envelope from "@/components/Envelope";
 import FinaleLetter from "@/components/FinaleLetter";
 import FlipCard from "@/components/FlipCard";
@@ -7,6 +8,7 @@ import Flower from "@/components/Flower";
 import GalleryRail from "@/components/GalleryRail";
 import HeartsOnTap from "@/components/HeartsOnTap";
 import HeroEntrance from "@/components/HeroEntrance";
+import Meadow from "@/components/Meadow";
 import MusicGate from "@/components/MusicGate";
 import Parallax from "@/components/Parallax";
 import Petals from "@/components/Petals";
@@ -38,12 +40,14 @@ function SceneHead({ no, title, sub }: { no: string; title: string; sub: string 
 export default function Home() {
   return (
     <div className="grain">
+      <Doodle />
       <HeartsOnTap />
       <MusicGate />
       <Story>
         {/* CH. 1 — COVER: one childhood photo */}
-        <header id="hero" className="  relative flex flex-col justify-center overflow-hidden px-5 pb-10 pt-20 md:px-8">
+        <header id="hero" className="relative flex flex-col justify-center overflow-hidden px-5 pb-16 pt-20 md:px-8">
           <Petals />
+          <Meadow className="pointer-events-none absolute inset-x-0 bottom-0 h-44 w-full" />
           <div className="relative mx-auto w-full max-w-md lg:max-w-2xl">
             <HeroEntrance>
               <p data-enter="kicker" className="text-center text-sm italic opacity-70">{heroKicker}</p>

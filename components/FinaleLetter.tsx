@@ -71,7 +71,7 @@ export default function FinaleLetter({
       </div>
       <p className="mt-5 text-sm italic opacity-70">{sign}</p>
       <span className="mt-1 block overflow-hidden pb-1">
-        <span ref={signRef} className="font-display block text-3xl">
+        <span ref={signRef} className="font-hand block text-4xl font-bold">
           {signature}
         </span>
       </span>

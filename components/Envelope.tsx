@@ -54,7 +54,7 @@ export default function Envelope({ lines }: { lines: string[] }) {
         <Expand open={open} label="Love letter">
           <div className="border-t-[3px] border-dashed border-cocoa/30 pt-5">
             <div className="flex items-start justify-between gap-2">
-              <p className="font-display text-2xl">dear cuking,</p>
+              <p className="font-hand text-3xl font-medium">dear cuking,</p>
               <div className="flex shrink-0 items-center gap-1" aria-hidden>
                 <span className="grid h-12 w-10 place-items-center border-2 border-dashed border-cocoa bg-lilac-soft font-display text-lg">
                   21
@@ -85,7 +85,7 @@ export default function Envelope({ lines }: { lines: string[] }) {
                 us ♥
               </span>
             </div>
-            <p className="mt-2 text-right font-display text-xl">— yours ♥</p>
+            <p className="font-hand mt-2 text-right text-2xl font-medium">— yours ♥</p>
           </div>
         </Expand>
       </div>
