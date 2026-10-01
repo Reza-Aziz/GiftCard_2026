@@ -61,7 +61,6 @@ export default function FinaleLetter({
   return (
     <div className="brutal-card relative p-5 sm:p-7">
       <Bouquet className="absolute -top-12 right-4 h-20 w-20" />
-      <p className="stamp mx-auto w-fit px-3 py-1 text-[11px] font-bold tracking-widest">SEALED WITH A KISS ♥</p>
       <div ref={linesRef} className="mt-4 space-y-4">
         {lines.map((p, i) => (
           <p key={i} className="mx-auto max-w-prose leading-loose text-[15px]">

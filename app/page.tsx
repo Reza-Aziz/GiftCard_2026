@@ -47,11 +47,11 @@ export default function Home() {
         {/* CH. 1 — COVER: one childhood photo */}
         <header id="hero" className="relative flex flex-col justify-center overflow-hidden px-5 pb-16 pt-20 md:px-8">
           <Petals />
-          <Meadow className="pointer-events-none absolute inset-x-0 bottom-0 h-44 w-full" />
+          <Meadow className="meadow-fade pointer-events-none absolute inset-x-0 bottom-0 h-44 w-full" />
           <div className="relative mx-auto w-full max-w-md lg:max-w-2xl">
             <HeroEntrance>
               <p data-enter="kicker" className="text-center text-sm italic opacity-70">{heroKicker}</p>
-              <h1 data-enter="title" className="font-display mt-1 text-center text-5xl leading-[1.02] sm:text-6xl">
+              <h1 data-enter="title" className="font-display mt-1 text-center text-[2.65rem] leading-[1.02] sm:text-6xl">
                 RIZKI OKY
                 <span className="mt-1 flex items-center justify-center gap-2 text-4xl sm:text-5xl">
                   <Floaty className="h-7 w-7 sm:h-9 sm:w-9" amount={4} duration={2}>
@@ -82,7 +82,7 @@ export default function Home() {
         <section id="letter" aria-label="Letter for cuking" className="texture-dots flex scroll-mt-6 flex-col justify-center px-5 py-20 md:px-8">
           <div className="mx-auto w-full max-w-md lg:max-w-xl">
             <Reveal>
-              <SceneHead no="CH. TWO · LETTER" title="a letter for you" sub="read it slowly, no skipping allowed" />
+              <SceneHead no="" title="a letter for you" sub="baca pelan-pelan yah sayangg" />
               <Vine />
             </Reveal>
             <Reveal delay={120}>
@@ -100,7 +100,7 @@ export default function Home() {
         <section id="gallery" aria-label={`Photo gallery of ${herName}`} className="flex flex-col justify-center py-20">
           <div className="mx-auto w-full max-w-md px-5 md:px-8 lg:max-w-2xl">
             <Reveal>
-              <SceneHead no="CH. THREE · GALLERY" title="eight chapters of you" sub="swipe sideways, every photo is a chapter" />
+              <SceneHead no="" title="Our Little Story in Your 20's" sub="swipe sideways, every photo is a chapter" />
             </Reveal>
           </div>
           <Reveal delay={120}>
@@ -112,7 +112,7 @@ export default function Home() {
         <section id="finale" aria-label="Letter for the 22nd birthday" className="texture-dots flex flex-col justify-center px-5 py-20 md:px-8">
           <div className="mx-auto w-full max-w-md lg:max-w-xl">
             <Reveal>
-              <SceneHead no="CH. FOUR · FINALE" title={finaleHead} sub="the last page, but never the end" />
+              <SceneHead no="" title={finaleHead} sub="" />
               <Vine />
             </Reveal>
             <Reveal delay={120}>
@@ -131,14 +131,14 @@ export default function Home() {
                         height={200}
                         className="mx-0.5 inline h-[1.1em] w-auto align-[-0.2em]"
                       />{" "}
-                      Lover Boy ❤️
+                      Lover Boy 
                     </>
                   }
                 />
               </Parallax>
             </Reveal>
             <p className="mt-6 text-center text-[11px] leading-relaxed tracking-widest opacity-50">
-              HAPPY 21ST {herName.toUpperCase()} ♥ SEE YOU AT 22
+              HAPPY 21ST {herName.toUpperCase()} , SEE YOU AT 22
             </p>
           </div>
         </section>

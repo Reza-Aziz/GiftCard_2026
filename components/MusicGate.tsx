@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import { gsap, reduced } from "@/lib/gsap";
-import Expand from "@/components/Expand";
 import Floaty from "@/components/Floaty";
 import Magnetic from "@/components/Magnetic";
 import { herName, nowPlaying, videoId } from "@/lib/content";
@@ -17,12 +16,11 @@ declare global {
 const TARGET_VOL = 75;
 const FALLBACK_VOL = 0.75;
 
-// Gate: ONE persistent envelope. Tap → flap spins + letter slides up
-// → badge + enter button expand in → tap → gate fades to main page.
-// All motion GSAP. Fallback mp3 if embed is blocked.
+// Gate in 2 taps: 1) volume alert → OK, 2) enter button → main page.
+// Music starts instantly at full volume on the final tap.
+// Fallback mp3 if the video blocks embedding.
 export default function MusicGate() {
-  const [open, setOpen] = useState(false);
-  const [entered, setEntered] = useState(false);
+  const [step, setStep] = useState(0); // 0: volume alert, 1: enter, 2: gone-in
   const [gone, setGone] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [ready, setReady] = useState(false);
@@ -30,46 +28,29 @@ export default function MusicGate() {
   const playerRef = useRef<any>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
   const gateRef = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
   const enterArrowRef = useRef<HTMLSpanElement>(null);
-  const flapRef = useRef<HTMLSpanElement>(null);
-  const peekRef = useRef<HTMLSpanElement>(null);
-  const badgeRef = useRef<HTMLSpanElement>(null);
 
-  // flap + peek follow `open`
+  // card swaps animate in on every step
   useEffect(() => {
-    if (reduced()) return;
-    gsap.to(flapRef.current, {
-      rotationX: open ? 160 : 0,
-      transformPerspective: 600,
-      duration: 0.5,
-      ease: "power3.out",
-      overwrite: true,
-    });
-    gsap.to(peekRef.current, {
-      yPercent: open ? 0 : 38,
-      duration: 0.65,
-      delay: open ? 0.2 : 0,
-      ease: "power3.out",
-      overwrite: true,
-    });
-  }, [open ]);
+    const el = cardRef.current;
+    if (!el || reduced()) return;
+    gsap.fromTo(
+      el,
+      { y: 26, autoAlpha: 0, scale: 0.97 },
+      { y: 0, autoAlpha: 1, scale: 1, duration: 0.5, ease: "back.out(1.4)", overwrite: true }
+    );
+  }, [step ]);
 
-  // volume badge pulse + enter arrow beckon
+  // enter arrow beckons
   useEffect(() => {
-    const badge = badgeRef.current;
-    const arrow = enterArrowRef.current;
-    if (reduced()) return;
-    const tweens: { kill(): void }[] = [];
-    if (badge) {
-      tweens.push(gsap.to(badge, { scale: 1.05, duration: 0.7, ease: "sine.inOut", yoyo: true, repeat: -1 }));
-    }
-    if (arrow) {
-      tweens.push(gsap.to(arrow, { y: 5, duration: 0.6, ease: "sine.inOut", yoyo: true, repeat: -1 }));
-    }
+    const el = enterArrowRef.current;
+    if (!el || reduced()) return;
+    const tween = gsap.to(el, { y: 5, duration: 0.6, ease: "sine.inOut", yoyo: true, repeat: -1 });
     return () => {
-      tweens.forEach((t) => t.kill());
+      tween.kill();
     };
-  }, []);
+  }, [step ]);
 
   const startYT = (player: any) => {
     player.setVolume(TARGET_VOL);
@@ -120,7 +101,7 @@ export default function MusicGate() {
   };
 
   const enter = () => {
-    setEntered(true);
+    setStep(2);
     window.dispatchEvent(new Event("site:entered"));
     if (reduced()) {
       setGone(true);
@@ -141,12 +122,12 @@ export default function MusicGate() {
   };
 
   useEffect(() => {
-    if (!entered) return;
+    if (step !== 2) return;
     const t = setTimeout(() => {
       if (!playerRef.current && !fallback) startFallback();
     }, 6000);
     return () => clearTimeout(t);
-  }, [entered]);
+  }, [step ]);
 
   const toggle = () => {
     if (fallback && audioRef.current) {
@@ -190,65 +171,54 @@ export default function MusicGate() {
       />
 
       {!gone && (
-        <div ref={gateRef} className="gate fixed inset-0 z-[70] flex items-center justify-center overflow-y-auto bg-cream px-6 py-10">
-          <div className="brutal-card w-full max-w-xs p-6 text-center">
-            <p className="text-xs font-bold tracking-[0.3em] opacity-60">FOR</p>
-            <p className="font-display mt-1 text-3xl leading-tight">{herName}</p>
-
-            <button
-              type="button"
-              onClick={() => !open && setOpen(true)}
-              aria-label={open ? "Envelope is open" : "Tap the envelope to open it"}
-              aria-expanded={open}
-              className="mx-auto mt-5 block w-52 cursor-pointer py-2"
-            >
-              <span className="block overflow-hidden rounded-xl border-[3px] border-cocoa bg-lilac-soft">
-                <span ref={flapRef} className="flap-origin block border-b-[3px] border-cocoa bg-lilac px-2 py-2 text-xs font-bold">
-                  ✉ FOR YOU ♥
-                </span>
-                <span className="relative block h-28">
-                  <span ref={peekRef} className="absolute inset-x-3 top-2 bottom-0 rounded-t-lg border-[3px] border-b-0 border-cocoa bg-[#fffdf5] p-2 text-left">
-                    <span className="font-display block text-sm">for cuking ♥</span>
-                    <span className="mt-1 block h-1.5 rounded bg-cocoa/15" />
-                    <span className="mt-1.5 block h-1.5 w-4/5 rounded bg-cocoa/15" />
-                    <span className="mt-1.5 block h-1.5 w-3/5 rounded bg-cocoa/15" />
-                  </span>
-                </span>
-              </span>
-            </button>
-
-            {!open && <p className="mt-3 text-[11px] opacity-50">psst… tap the envelope ↑</p>}
-
-            <Expand open={open} label="Enter the site">
-              <div className="pt-4">
-                <span ref={badgeRef} className="mx-auto flex w-fit items-center gap-2 rounded-full border-[3px] border-cocoa bg-sun px-4 py-2 text-sm font-bold shadow-[4px_4px_0_var(--color-cocoa)]">
-                  <Floaty amount={2} duration={0.9}>
-                    <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2.5">
-                      <path d="M11 5 6 9H3v6h3l5 4V5z" fill="currentColor" />
-                      <path d="M15 9a4 4 0 0 1 0 6 M18 6a8 8 0 0 1 0 12" strokeLinecap="round" />
-                    </svg>
+        <div ref={gateRef} className="gate fixed inset-0 z-[70] overflow-y-auto bg-cream">
+          <div className="flex min-h-full items-start px-6 py-10">
+            <div ref={cardRef} className="brutal-card m-auto w-full max-w-xs p-6 text-center">
+              {step === 0 ? (
+                <>
+                  <Floaty amount={3} duration={1.6} className="mx-auto w-fit">
+                    <span className="grid h-16 w-16 place-items-center rounded-full border-[3px] border-cocoa bg-sun">
+                      <svg viewBox="0 0 24 24" className="h-8 w-8" fill="none" stroke="currentColor" strokeWidth="2.5">
+                        <path d="M11 5 6 9H3v6h3l5 4V5z" fill="currentColor" />
+                        <path d="M15 9a4 4 0 0 1 0 6 M18 6a8 8 0 0 1 0 12" strokeLinecap="round" />
+                      </svg>
+                    </span>
                   </Floaty>
-                  turn your volume up!
-                </span>
-                <Magnetic>
+                  <p className="font-display mt-3 text-3xl leading-tight">Besarin Volume Nya Yakk!</p>
+                  <p className="mt-1 text-sm italic opacity-70"></p>
                   <button
                     type="button"
-                    onClick={enter}
-                    className="brutal-btn mt-4 w-full rounded-full bg-bubble px-6 py-3.5 font-bold text-cocoa"
+                    onClick={() => setStep(1)}
+                    className="brutal-btn mt-5 w-full rounded-full bg-cocoa px-6 py-3.5 font-bold text-cream"
                   >
-                    step into your world{" "}
-                    <span ref={enterArrowRef} className="inline-block">
-                      ↓
-                    </span>
+                    DONE?
                   </button>
-                </Magnetic>
-              </div>
-            </Expand>
+                </>
+              ) : (
+                <>
+                  <p className="text-xs font-bold tracking-[0.3em] opacity-60">To My Beloved Girlfriend</p>
+                  <p className="font-display mt-1 text-3xl leading-tight">{herName}</p>
+                  <p className="mt-2 text-sm italic opacity-70">ready? your surprise is inside ♥</p>
+                  <Magnetic>
+                    <button
+                      type="button"
+                      onClick={enter}
+                      className="brutal-btn mt-5 w-full rounded-full bg-bubble px-6 py-3.5 font-bold text-cocoa"
+                    >
+                      step into your world{" "}
+                      <span ref={enterArrowRef} className="inline-block">
+                        ↓
+                      </span>
+                    </button>
+                  </Magnetic>
+                </>
+              )}
+            </div>
           </div>
         </div>
       )}
 
-      {entered && (
+      {step === 2 && (
         <>
           <div className="fixed bottom-5 left-4 z-50 max-w-[60%] truncate rounded-full border-2 border-cocoa bg-white px-3 py-1.5 text-[11px] font-bold shadow-[3px_3px_0_var(--color-cocoa)]">
             {ready ? `♪ now playing: ${nowPlaying}` : "tuning our song…"}

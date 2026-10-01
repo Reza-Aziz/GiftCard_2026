@@ -23,7 +23,7 @@ function RailCard({ p, i }: { p: Photo; i: number }) {
         scale: 1,
         duration: 1.2,
         ease: "sine.out",
-        scrollTrigger: { trigger: card, start: "left 85%", toggleActions: "play none none reverse" },
+        scrollTrigger: { trigger: card, start: "top 88%", toggleActions: "play none none reverse" },
       }
     );
     return () => {
@@ -62,12 +62,58 @@ function RailCard({ p, i }: { p: Photo; i: number }) {
   );
 }
 
+const STEP = 336; // 320px card + 16px gap
+
 export default function GalleryRail({ photos }: { photos: readonly Photo[] }) {
   const railRef = useRef<HTMLDivElement>(null);
   const arrowRef = useRef<HTMLSpanElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
   const [swiped, setSwiped] = useState(false);
+  const [idx, setIdx] = useState(0);
+  const max = photos.length - 1;
 
-  // spotlight: the card nearest the rail center pops, the rest dim
+  const go = (d: number) => setIdx((i) => Math.min(max, Math.max(0, i + d)));
+
+  // desktop paged view: slide the track (GSAP, buttons only — no swipe)
+  useEffect(() => {
+    const el = trackRef.current;
+    if (!el) return;
+    if (reduced()) {
+      gsap.set(el, { x: -idx * STEP });
+      return;
+    }
+    gsap.to(el, { x: -idx * STEP, duration: 0.6, ease: "power3.out", overwrite: true });
+  }, [idx ]);
+
+  // mobile nudge: slide right-left once when the chapter enters
+  useEffect(() => {
+    const el = railRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      (entries) =>
+        entries.forEach((e) => {
+          if (!e.isIntersecting) return;
+          io.disconnect();
+          setTimeout(() => el.scrollTo({ left: 90, behavior: "smooth" }), 600);
+          setTimeout(() => el.scrollTo({ left: 0, behavior: "smooth" }), 1400);
+        }),
+      { threshold: 0.3 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  // mobile arrow beckons sideways (GSAP)
+  useEffect(() => {
+    const el = arrowRef.current;
+    if (!el || reduced()) return;
+    const tween = gsap.to(el, { x: 6, duration: 0.6, ease: "sine.inOut", yoyo: true, repeat: -1 });
+    return () => {
+      tween.kill();
+    };
+  }, []);
+
+  // mobile spotlight: card nearest center pops, rest dim
   const spotlight = () => {
     const rail = railRef.current;
     if (!rail || reduced()) return;
@@ -86,56 +132,65 @@ export default function GalleryRail({ photos }: { photos: readonly Photo[] }) {
     });
   };
 
-  // nudge: slide right-left once when the chapter enters, inviting a swipe
-  useEffect(() => {
-    const el = railRef.current;
-    if (!el) return;
-    const io = new IntersectionObserver(
-      (entries) =>
-        entries.forEach((e) => {
-          if (!e.isIntersecting) return;
-          io.disconnect();
-          setTimeout(() => el.scrollTo({ left: 90, behavior: "smooth" }), 600);
-          setTimeout(() => el.scrollTo({ left: 0, behavior: "smooth" }), 1400);
-        }),
-      { threshold: 0.3 }
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
-
-  // arrow beckons sideways (GSAP)
-  useEffect(() => {
-    const el = arrowRef.current;
-    if (!el || reduced()) return;
-    const tween = gsap.to(el, { x: 6, duration: 0.6, ease: "sine.inOut", yoyo: true, repeat: -1 });
-    return () => {
-      tween.kill();
-    };
-  }, []);
-
   return (
     <div className="relative">
-      <div
-        ref={railRef}
-        onScroll={(e) => {
-          if ((e.target as HTMLDivElement).scrollLeft > 30) setSwiped(true);
-          spotlight();
-        }}
-        className="rail -mx-5 flex gap-4 overflow-x-auto px-5 py-6 md:-mx-8 md:px-8"
-      >
-        {photos.map((p, i) => (
-          <RailCard key={p.src} p={{ ...p }} i={i} />
-        ))}
+      {/* mobile: swipe rail (untouched) */}
+      <div className="md:hidden">
+        <div
+          ref={railRef}
+          onScroll={(e) => {
+            if ((e.target as HTMLDivElement).scrollLeft > 30) setSwiped(true);
+            spotlight();
+          }}
+          className="rail -mx-5 flex gap-4 overflow-x-auto px-5 py-6 md:-mx-8 md:px-8"
+        >
+          {photos.map((p, i) => (
+            <RailCard key={p.src} p={{ ...p }} i={i} />
+          ))}
+        </div>
+        {!swiped && (
+          <span ref={arrowRef} className="absolute right-1 top-1/3 grid h-10 w-10 place-items-center rounded-full border-[3px] border-cocoa bg-sun text-lg font-bold shadow-[3px_3px_0_var(--color-cocoa)]" aria-hidden>
+            →
+          </span>
+        )}
+        <p className="mt-2 text-center text-xs font-bold tracking-widest opacity-60">
+          {swiped ? "ONE PHOTO, ONE CHAPTER ♥" : "SWIPE → GO ON, TRY IT ♥"}
+        </p>
       </div>
-      {!swiped && (
-        <span ref={arrowRef} className="absolute right-1 top-1/3 grid h-10 w-10 place-items-center rounded-full border-[3px] border-cocoa bg-sun text-lg font-bold shadow-[3px_3px_0_var(--color-cocoa)]" aria-hidden>
-          →
-        </span>
-      )}
-      <p className="mt-2 text-center text-xs font-bold tracking-widest opacity-60">
-        {swiped ? "ONE PHOTO, ONE CHAPTER ♥" : "SWIPE → GO ON, TRY IT ♥"}
-      </p>
+
+      {/* desktop: buttons only, no swipe */}
+      <div className="hidden md:block">
+        <div className="relative mx-auto w-[400px] max-w-full">
+          <button
+            type="button"
+            onClick={() => go(-1)}
+            disabled={idx === 0}
+            aria-label="Previous photo"
+            className="brutal-btn absolute left-0 top-1/3 z-10 grid h-11 w-11 place-items-center rounded-full bg-white text-xl font-bold disabled:opacity-30"
+          >
+            ←
+          </button>
+          <button
+            type="button"
+            onClick={() => go(1)}
+            disabled={idx === max}
+            aria-label="Next photo"
+            className="brutal-btn absolute right-0 top-1/3 z-10 grid h-11 w-11 place-items-center rounded-full bg-white text-xl font-bold disabled:opacity-30"
+          >
+            →
+          </button>
+          <div className="overflow-hidden px-10 py-6">
+            <div ref={trackRef} className="flex w-max gap-4">
+              {photos.map((p, i) => (
+                <RailCard key={p.src} p={{ ...p }} i={i} />
+              ))}
+            </div>
+          </div>
+        </div>
+        <p className="mt-2 text-center text-xs font-bold tracking-widest opacity-60">
+          {idx + 1} / {photos.length} ♥ CLICK ← → TO BROWSE
+        </p>
+      </div>
     </div>
   );
 }

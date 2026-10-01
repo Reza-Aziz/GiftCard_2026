@@ -81,7 +81,7 @@ export default function FlipCard({ name }: { name: string }) {
           </span>
         </span>
       </button>
-      <p className="mt-3 text-center text-[11px] font-bold tracking-widest opacity-50">TAP THE CARD TO FLIP ⇄</p>
+      {/* <p className="mt-3 text-center text-[11px] font-bold tracking-widest opacity-50">TAP THE CARD TO FLIP ⇄</p> */}
     </div>
   );
 }

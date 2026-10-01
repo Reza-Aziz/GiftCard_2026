@@ -38,7 +38,7 @@ export default function Envelope({ lines }: { lines: string[] }) {
         </div>
 
         <div className="flex min-h-28 flex-col items-center justify-center py-4 text-center">
-          {!open && <p className="mb-3 text-sm italic opacity-70">a letter is waiting for you…</p>}
+          {!open && <p className="mb-3 text-sm italic opacity-70"></p>}
           <Magnetic>
             <button
               type="button"
