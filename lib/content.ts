@@ -27,7 +27,7 @@ export const photoChapters = [
 
 export const finaleHead = "one last thing";
 export const finaleLines = [
-  "Buat terakhir kali, always be the Oky that I’ve always known yak, oky yang selalu ceria dan bewarna, suka bantu orang-orang, oky yang rajin nugas, oky yang sayang akuu. Semoga aku masih bisa berkesempatan buat ngucapin untuk ulang tahun mu yang ke 22 beso yah, maybe dengan  kue tart yang gede dan party pop, who knowss yaa ",
+  "Buat terakhir kali, always be the Oky that I’ve always known yak, oky yang selalu ceria dan bewarna, suka bantu orang-orang, oky yang rajin nugas, oky yang sayang akuu. Semoga aku masih bisa berkesempatan buat ngucapin untuk ulang tahun mu yang ke 22 beso yah, sapa tau aku kado mobil aowowowkwwk, who knowss yaa ",
 ];
 export const finaleSign = "With Love,";
 
